@@ -10,11 +10,11 @@ With this tool, you can export blueprints you made from that old endgame save, a
 
 -Upon opening, there's a "Load Save File" button at the top, with a "Save Changes" button right next to it.  A message box, also at the top, displays the loaded save file, the currently-selected ship, and the current SYS UP and COM LVL.
 
--Just below the buttons at the top, there are three tabs: "Blueprint Manager", "Gummi Inventory Editor", and "Blueprint Collection".
+-Just below the buttons at the top, there are three tabs: "Blueprint Manager", "Gummi Block Inventory", and "Blueprint Collection".
 
 In "Blueprint Manager", you can manage the ten editable blueprints the game gives you.  This is the default tab.
 
-In "Gummi Inventory Editor", you can freely edit the quantity of any Gummi item in the inventory.
+In "Gummi Block Inventory", you can freely edit the quantity of any Gummi item in the inventory.
 
 In "Blueprint Collection", you can view and edit your collection of pre-built Gummi Ship blueprints obtained from enemy ships and other rewards.
 
