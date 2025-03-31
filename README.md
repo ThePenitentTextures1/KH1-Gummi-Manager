@@ -38,7 +38,7 @@ By default, Rare and Design Gummis don't get imported, and while it is recommend
 
   ---To-do list:
 
--CRITICAL: Fix loading PC Port save files.  TOOL WILL BE USELESS WITHOUT THIS!!!
+-CRITICAL: Fix loading PC Port save files.
 
 -Fix a bug where clicking on an empty blueprint does not clear the gummi_treeview.
 
