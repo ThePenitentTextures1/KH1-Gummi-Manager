@@ -20,7 +20,11 @@ In "Blueprint Collection", you can view and edit your collection of pre-built Gu
 
 So you can go crazy and max out your inventory if you like, but if all you want is to import a mid-to-lategame blueprint into an early-game save file, and only add to the inventory the neccessary parts to build the ship and make it work, you can do that without ever leaving the Blueprint Manager.
 
--In the Blueprint Manager, you can Export, Import, Rename, and Delete your Blueprints.  You can even change the save file's currently selected ship!
+-In the Blueprint Manager, you can Export and Import Blueprints by clicking on the appropriate button beneath the Blueprint Listbox.
+
+-You can also Rename or Delete Blueprints by right-clicking on the desired Blueprint and clicking "Rename" or "Delete" in the Right Click Menu.
+
+-You can even change the save file's currently selected ship just by clicking on the Blueprint Listbox!
 
 -You can also add Gummi Blocks to your Inventory based on the requirements of the blueprints currently imported.  Gummi Blocks are catagorized into three types: Common, Rare, and Design.
 
