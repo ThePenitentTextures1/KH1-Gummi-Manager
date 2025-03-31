@@ -287,7 +287,6 @@ weapon_gummis = {
 }
 
 system_gummis = {
-    0x32,   # Warp-G
     0x41,   # Spray
     0x42,   # Palette
     0x43,   # SYS. UP1
