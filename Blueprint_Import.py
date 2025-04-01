@@ -108,7 +108,7 @@ def import_blueprint(gumi_content, blueprint_listbox, blueprint_offsets, save_fi
                     else:
                         set_gummi_com_levels(gumi_content, imported_blueprint_blocks, num_blueprints + 1, save_filename)
 
-                    messagebox.showinfo("Blueprint Imported", f"Blueprint imported into slot {blueprint_number} successfully.")
+                    return True
                 else:
                     messagebox.showerror("Error", "Failed to import blueprint. Please try again.")
             else:
