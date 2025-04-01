@@ -663,6 +663,7 @@ class GummiBlueprintGUI:
             self.update_gummi_stats()
             self.update_gummi_treeview(self.data.blueprint_data, self.data.gumi_content)
             self.refresh_inventory_editor()
+            messagebox.showinfo("Blueprint Imported", f"Blueprint imported into slot {blueprint_number} successfully.")
 
 
 
