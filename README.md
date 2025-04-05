@@ -34,7 +34,7 @@ Rare Gummis are Gummi Blocks that, in Final Mix, are obtained from treasure ches
 
 Design Gummis are the Gummi Blocks introduced in Final Mix, which means they aren't available and may cause unexpected bugs in pre-Final Mix versions of the game.
 
-By default, Rare and Design Gummis don't get imported, and while it is recommended to leave their checkboxes unchecked so that you aren't locked out of chests containing late-game Gummi Blocks, the user always has the option to import them anyway.
+By default, Rare and Design Gummis don't get added to the inventory, and while it is recommended to leave their checkboxes unchecked so that you aren't locked out of chests containing late-game Gummi Blocks, the user always has the option to add them to the inventory anyway.
 
   ---To-do list:
 
