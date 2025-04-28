@@ -42,6 +42,8 @@ By default, Rare and Design Gummis don't get added to the inventory, and while i
 
 -Fix a bug where clicking on an empty blueprint does not clear the gummi_treeview. (Did I resolve this already?)
 
+-Add support for editing Gummi Ship controls; extend the gumi_content slice to accommodate that section of the data.
+
 -Simplify the SYS UP and COM LVL code; set all five of them to 1 upon importing a blueprint.  This will prevent blueprints from unexpectedly having blocks disappear because the SYS UP/COM LVL weren't set correctly.
 
 -Compile the program as an .exe with external .py components.
