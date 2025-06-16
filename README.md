@@ -4,7 +4,7 @@
             
                 The following is a detailed design brief written from an end-result point-of-view.
                 I hope the next person who decides to take this project on has better coding chops than I do.
-  Preliminary:
+    Preliminary:
 I want this program to be written in Python and built around a Model-View-Controller setup, as that sounds like the most maintainable way to build a program.
 
 I have two pre-existing files to reference: KH1SYS_Text.py, and Gummi_Block_Info.py
@@ -17,8 +17,9 @@ I have both of these files shared in the attachments.
 
 
 
-		Data Structure of gumi_content, etc.:
+    Data Structure of gumi_content, etc.:
 -These are the constants for GUMI data structure:
+
 GUMI_CONTENT_SIZE = 0x9B70                 # Total size of GUMI content block
 
 The data in gumi_content is as follows:
@@ -26,14 +27,23 @@ The data in gumi_content is as follows:
 Currently-Selected Ship: "GUMI" +0x10
 
 Blueprint #1: "GUMI" +0x1C
+
 Blueprint #2: "GUMI" +0xF8C
+
 Blueprint #3: "GUMI" +0x1EFC
+
 Blueprint #4: "GUMI" +0x2E6C
+
 Blueprint #5: "GUMI" +0x3DDC
+
 Blueprint #6: "GUMI" +0x4D4C
+
 Blueprint #7: "GUMI" +0x5CBC
+
 Blueprint #8: "GUMI" +0x6C2C
+
 Blueprint #9: "GUMI" +0x7B9C
+
 Blueprint #10: "GUMI" +0x8B0C
 
 Gummi Inventory: "GUMI" +0x9A78
@@ -48,42 +58,66 @@ The "Blueprint #1-10" slots are the bytes where each blueprint's data is stored.
 "Gummi Inventory" is a table that keeps track of the player's inventory of Gummi Blocks, as well as their collection of prebuilt blueprints.  GUMI+0x9A78 is Cure-G (Gummi ID 0x01), and every inventory item afterwards matches the gummi_block_names list in Gummi_Block_Info.py.
 
 "Gummi Ship Controls" is a table that keeps track of the player's preferred button assignments for piloting the Gummi Ship.
+
 Control Offsets:
+
 GUMI +0x9B40 = Decelerate
+
 GUMI +0x9B44 = Accelerate
+
 GUMI +0x9B48 = Transform
+
 GUMI +0x9B4C = Small Cannon
+
 GUMI +0x9B50 = Mid Cannon
+
 GUMI +0x9B54 = Large Cannon
+
 GUMI +0x9B58 = Small Laser
+
 GUMI +0x9B5C = Mid Laser
+
 GUMI +0x9B60 = Large Laser
 
 Hex Strings mapped to Controls:
+
 0x00 0x04 0x00 0x00 = L1
+
 0x00 0x10 0x00 0x00 = Triangle
+
 0x00 0x20 0x00 0x00 = Circle
+
 0x00 0x40 0x00 0x00 = Cross
+
 0x00 0x80 0x00 0x00 = Square
+
 0x00 0x00 0x00 0x00 = Null
 
 
 -These are the constants for Blueprint data structure:
+
 BLUEPRINT_DATA_SIZE = 0xF6C                # Size of the entire blueprint data block
 
 BLUEPRINT_BLOCK_COUNT_OFFSET = 0x00        # Offset for byte that stores the block count in blueprint
+
 BLUEPRINT_SIZE_OFFSET_START = 0x01         # Start of offset for blueprint size
+
 BLUEPRINT_SIZE_OFFSET_END = 0x06           # End of offset for blueprint size
+
 BLUEPRINT_NAME_OFFSET_START = 0x4C         # Start of the encoded blueprint name in blueprint data
+
 BLUEPRINT_NAME_OFFSET_END = 0x58           # End of the encoded blueprint name in blueprint data
+
 BLUEPRINT_GUMMI_BLOCKS_START = 0x6C        # Start of blueprint's Gummi Block Data
 
 -These are the constants for the data structure of a single Gummi Block within each Blueprint:
+
 GUMMI_BLOCK_LENGTH = 0x0B                  # Total size of each Gummi Block entry in blueprint data
+
 GUMMI_ID_OFFSET = 0x04                     # Offset of the ID for each Gummi Block in Gummi Block data.
 
 
-		Initial Startup:
+    Initial Startup:
 The Model should initialize the following:
 
 self.file_content (A copy of the data from the entire loaded save file)
@@ -99,13 +133,13 @@ There are two valid types of save files: PC Port .png save archives, and individ
 
 
 
-		Part 1: The GUI: Top Menu and Blueprint Manager
+    Part 1: The GUI: Top Menu and Blueprint Manager
 Here I'll describe not only the layout of the GUI, but also the data flow that should take place upon interaction with the GUI.
 
-	The Window:
+    The Window:
 The title of the program is "KH1 Gummi Manager", and the default window size is 720x450.
 
-	Top Menu Bar, Loading and Saving:
+    Top Menu Bar, Loading and Saving:
 Packed to the top of the program window, there's a menu (herein "Top Menu").  Packed to the left of the Top Menu, there are two buttons "Load Save File" and "Save Changes", which trigger the logic in the Model for loading save files and following the steps to write the modified gumi_content back to the original file.
 
 Upon the loading of a save file as file_content, the Model should first check which type of save file it is.
@@ -158,14 +192,13 @@ When the "Save Changes" button is pressed, the Model will basically do these ste
 
 
 
-	Top Menu Bar, Save File Selector:
+    Top Menu Bar, Save File Selector:
 
 A drop-down menu, packed to the top-middle of the GUI, allows the user to select which save file from the save_files list to load gumi_content from.  Empty entries in the list are not displayed; only the ones populated with valid save data.
 
 
 
-		Part 2: Blueprint Manager
-	Blueprint Manager Tab:
+    Part 2: Blueprint Manager Tab
 This will be the biggest, most robust portion of the program.
 
 The Blueprint Manager is the first tab from the left, and the program's default tab.
@@ -222,23 +255,22 @@ The SYS UP and COM LVL parameter checks should be performed every time the model
 
 
 
-
-		Part 3: Extra Features, Gummi Inventory Editor, and Ship Controls
-	Extra Top Menu Features:
+   Part 3: Extra Features, Gummi Inventory Editor, and Ship Controls
+   Extra Top Menu Features:
 Upon the user clicking the "Save Changes" button, a pop-up window should appear, consisting of the text "Please select the ship to default to in-game:", along with a duplicate of Blueprint Manager's blueprint_listbox.  After the user selects the desired blueprint to use as the default ship (which the data reads as a value of 1-10) and clicks "OK", the pop-up disappears, the Model writes the selected value to the 0x10 offset in gumi_content, and the logic for saving changes commences.
 
 
-	Extra Blueprint Manager Features:
-Right-clicking on an entry in blueprint_listbox will both select that entry (loading it as blueprint_data) and display a right-click menu with three options: "Rename", "Migrate", and "Delete".
-
-"Rename" displays a pop-up window where the user can type a 12-character ASCII string, which the Model will then convert to KH1SYS_Text and overwrite the name in blueprint_data at BLUEPRINT_NAME_OFFSET_START.
+   Extra Blueprint Manager Features:
+Right-clicking on an entry in blueprint_listbox will both select that entry (loading it as blueprint_data) and display a right-click menu with three options: "Migrate", "Rename", and "Delete".
 
 "Migrate" is a function intended to migrate a blueprint from the currently-loaded gumi_content to a blueprint slot in a different save file in save_files.  First, it displays a pop-up window where the user can select which save file to migrate the blueprint to; the "gumi_content"-equivalent data slice from this save file's GUMI header up to GUMI+0x9B70 is extracted as "gumi_content_migrate".  Next, the View generates a pop-up window with a copy of blueprint_listbox (sans right-click menu), which is populated with the ten blueprint slots from gumi_content_migrate; the user clicks which slot to migrate the blueprint to; if the chosen slot would overwrite an existing blueprint, a warning box appears asking if the user is okay with overwriting the blueprint.  If "Yes", then the selected blueprint overwrites the blueprint in the chosen slot in gumi_content_migrate, then gumi_content_migrate is written back into the save slot in save_files that it was taken from and the pop-up closes, if "No", then the warning box closes and the user must pick another blueprint slot from gumi_content_migrate.
+
+"Rename" displays a pop-up window where the user can type a 12-character ASCII string, which the Model will then convert to KH1SYS_Text and overwrite the name in blueprint_data at BLUEPRINT_NAME_OFFSET_START.
 
 "Delete" is very simple; it replaces the entire BLUEPRINT_DATA_SIZE of that blueprint with "0x00", erasing the content of that blueprint from the gumi_content.
 
 
-	Inventory Editor/Blueprint Collection Tabs:
+    Inventory Editor/Blueprint Collection Tabs:
 The Gummi Block Inventory tab is the second tab from the left (after the Blueprint Manager tab), and the Blueprint Collection tab is the one after that.
 
 This program will have one tab for the Gummi Block Inventory, and another for the Blueprint Collection.  Both tabs use the same underlying code structure (herein "Inventory Editor").
@@ -258,7 +290,7 @@ Checks should be added to ensure that SYS UP 1, SYS UP 2, COM LVL 1, COM LVL 2, 
 The only difference between the Gummi Block Inventory and the Blueprint Collection is that Blueprint Collection sets "ShowBlueprints=True", which has the effect of showing the Blueprints (as listed in gummi_blueprints in Gummi_Block_Info.py) and hiding the other inventory items.  The Gummi Block Inventory sets "ShowBlueprints=False", which hides the Blueprints, and shows the other inventory items.
 
 
-	Ship Controls Tab:
+    Ship Controls Tab:
 Ship Controls is the fourth tab from the left, after Blueprint Manager, Inventory Editor, and Blueprint Collection.
 
 There are 9 drop-down boxes representing in-game controls, each labeled as follows: Decelerate, Accelerate, Transform, Small Cannon, Mid Cannon, Large Cannon, Small Laser, Mid Laser, and Large Laser.
