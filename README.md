@@ -207,19 +207,25 @@ The program should automatically raise COM LVL 3 to a value of 0x01 and display 
 
 -There are 5 or more blueprints in gumi_content
 OR
--At least one blueprint in gumi_content has more than 150 blocks, 4 Engine Gummis, or 6 Weapon Gummis
+-At least one blueprint in gumi_content has any of the following:
+--more than 150 blocks
+--more than 4 Engine Gummis
+--more than 6 Weapon Gummis
 
 The program should automatically raise COM LVL 2 to a value of 0x01 and display "COM LVL: 2" in a pale green highlight if:
 
 -There are 2 or more blueprints in gumi_content
 OR
--At least one blueprint in gumi_content has more than 100 blocks, 2 Engine Gummis, or 4 Weapon Gummis
+-At least one blueprint in gumi_content has any of the following:
+--more than 100 blocks
+--more than 2 Engine Gummis
+--more than 4 Weapon Gummis
 
 Otherwise it should set COM LVL 1 to a value of 0x01 and display "COM LVL:1" with no highlight.
 
 The SYS UP and COM LVL parameter checks should be performed every time the model class makes a change to the data in gumi_content.  While the checks are being performed, the display should replace the SYS UP and COM LVL text with "checking SYS UP and COM LVL parameters..." for the duration of both checks.
 
-
+-----
 
 
 
