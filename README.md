@@ -8,6 +8,7 @@ I hope the next person who decides to take this project on has better coding cho
 -----
 
 ---Preliminary:
+
 I want this program to be written in Python and built around a Model-View-Controller setup, as that sounds like the most maintainable way to build a program.
 
 I have two pre-existing files containing important information lists for the program to reference: KH1SYS_Text.py, and Gummi_Block_Info.py
@@ -19,6 +20,7 @@ Gummi_Block_Info.py contains much information about each Gummi Block, including 
 -----
 
 ---Data Structure of gumi_content, etc.:
+
 -These are the constants for GUMI data structure:
 
 GUMI_CONTENT_SIZE = 0x9B70                 # Total size of GUMI content block
@@ -86,13 +88,19 @@ GUMMI_ID_OFFSET = 0x04                     # Offset of the ID for each Gummi Blo
 
 
 ---Initial Startup:
+
 The Model should initialize the following:
 
 self.file_content (A copy of the data from the entire loaded save file)
+
 self.save_files (A copy of each individual save file from file_content, complete with its save name, extracted from the .png archive, or else just the data from the loaded individual save)
+
 self.gumi_content (The slice of data from the selected entry from save_files that represents the actual Gummi data the tool will work with)
+
 self.blueprint_data (A slice of data representing a single blueprint extracted from gumi_content)
+
 self.gummi_blocks_raw (A copy of each individual 12-byte block of Gummi Block data as found within blueprint_data)
+
 self.gummi_blocks (same as gummi_blocks_raw, but re-sequenced in Gummi ID order)
 
 
@@ -101,7 +109,8 @@ There are two valid types of save files: PC Port .png save archives, and individ
 -----
 
 
----Part 1: The GUI: Top Menu and Blueprint Manager
+---Part 1: The GUI: Top Menu
+
 Here I'll describe not only the layout of the GUI, but also the data flow that should take place upon interaction with the GUI.
 
 --The Window:
@@ -168,6 +177,7 @@ A drop-down menu, packed to the top-middle of the GUI, allows the user to select
 
 
 ---Part 2: Blueprint Manager Tab
+
 This will be the biggest, most robust portion of the program.
 
 The Blueprint Manager is the first tab from the left, and the program's default tab.
@@ -184,7 +194,7 @@ The naming convention for each entry in blueprint_listbox is "Blueprint [bluepri
 
 Clicking on a blueprint in blueprint_listbox will cause the Model to load that blueprint as blueprint_data.  From there, the Model checks the byte at 0x00 of the blueprint_data to determine how many Gummi Blocks are used in the blueprint.  Then the Model goes to 0x6C of blueprint_data and stores each 12-byte block of Gummi Block data (ONLY as many as are indicated by the byte at 0x00 of blueprint_data; E.G. if the byte reads 0x0B, store the first 11 blocks of Gummi Block data.) as gummi_blocks_raw.  The Model then reads the 4th byte of every Gummi Block as its Gummi ID, and sorts the entire list by Gummi ID and stores the re-ordered list as gummi_blocks.
 
-Once that's complete, the GUI reads gummi_blocks, counts the number of times each Gummi ID appears in the list, and then, in the gummi_treeview, displays the information for each Gummi ID that's found in gummi_blocks, including its name in the "Gummi Block" column (discerned using the gummi_block_names list in Gummi_Block_Info.py), the Type in the "Type" column ("Chest" or "Design", else "Common"), the quantity used in the blueprint in the "Required" column, and the quantity available in the Gummi Inventory in the "Inventory" column (found at 0x9BA8 + Gummi ID -1; Gummi ID 0x00 is Null and should be ignored by the program).
+Once that's complete, the GUI reads gummi_blocks, counts the number of times each Gummi ID appears in the list, and then, in the gummi_treeview, displays the information for each Gummi ID that's found in gummi_blocks, including its name in the "Gummi Block" column (discerned using the gummi_block_names list in Gummi_Block_Info.py), the Type in the "Type" column ("Chest", "Design", or "Chest/Design", else "Common"), the quantity used in the blueprint in the "Required" column, and the quantity available in the Gummi Inventory in the "Inventory" column (found at 0x9BA8 + Gummi ID -1; Gummi ID 0x00 is Null and should be ignored by the program).
 
 The "Export Blueprint" button should cause the Model to export blueprint_data as a .kh1blueprint file.
 
@@ -205,7 +215,7 @@ The program should automatically raise SYS UP 2 to 0x01 and display "SYS UP: 2" 
 
 The program should automatically raise COM LVL 3 to a value of 0x01 and display "COM LVL: 3" in a pale blue highlight if:
 
--There are 5 or more blueprints in gumi_content
+-There are 6 or more blueprints in gumi_content
 OR
 -At least one blueprint in gumi_content has any of the following:
 --more than 150 blocks
