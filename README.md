@@ -80,7 +80,7 @@ BLUEPRINT_GUMMI_BLOCKS_START = 0x6C        # Start of blueprint's Gummi Block Da
 
 -These are the constants for the data structure of a single Gummi Block within each Blueprint:
 
-GUMMI_BLOCK_LENGTH = 0x0B                  # Total size of each Gummi Block entry in blueprint data
+GUMMI_BLOCK_LENGTH = 0x0C                  # Total size of each Gummi Block entry in blueprint data
 
 GUMMI_ID_OFFSET = 0x04                     # Offset of the ID for each Gummi Block in Gummi Block data.
 
