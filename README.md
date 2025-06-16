@@ -60,39 +60,6 @@ The "Blueprint #1-10" slots are the bytes where each blueprint's data is stored.
 
 "Gummi Ship Controls" is a table that keeps track of the player's preferred button assignments for piloting the Gummi Ship.
 
-Control Offsets:
-
-GUMI +0x9B40 = Decelerate
-
-GUMI +0x9B44 = Accelerate
-
-GUMI +0x9B48 = Transform
-
-GUMI +0x9B4C = Small Cannon
-
-GUMI +0x9B50 = Mid Cannon
-
-GUMI +0x9B54 = Large Cannon
-
-GUMI +0x9B58 = Small Laser
-
-GUMI +0x9B5C = Mid Laser
-
-GUMI +0x9B60 = Large Laser
-
-Hex Strings mapped to Controls:
-
-0x00 0x04 0x00 0x00 = L1
-
-0x00 0x10 0x00 0x00 = Triangle
-
-0x00 0x20 0x00 0x00 = Circle
-
-0x00 0x40 0x00 0x00 = Cross
-
-0x00 0x80 0x00 0x00 = Square
-
-0x00 0x00 0x00 0x00 = Null
 
 
 -These are the constants for Blueprint data structure:
