@@ -6,32 +6,39 @@ import tkinter.messagebox as messagebox
 import tkinter.simpledialog as sd
 import shutil
 import tempfile
+import logging
 
 from Gummi_Block_Info import gummi_block_names
 from Gummi_Block_Info import max_gummi_counts
 from Gummi_Block_Info import rare_gummis
 from Gummi_Block_Info import design_gummis
+from Gummi_Block_Info import rare_design_gummis
 
-#### TODO:
-#### Currently the tool reads the unused Gummi Block data from the end of the blueprint.
-#### This results in odd behavior such as claiming the selected blueprint calls for 58 Life-Gs, when the blueprint never actually calls for that.
-#### The Blueprint_Export module deals with this by extracting only the data that the game actually reads and filling out the remaining space with 00.
-#### This commented-out, not-yet-fully-implemented code will make Gummi_Block_Operations read the blueprint in the same way that the game does, ensuring only the used blocks are read.
-#
-#def read_used_blocks(blueprint_data):
-#    # Read Byte 00 to determine how many Gummi Blocks are used in the blueprint
-#    num_blocks_used = blueprint_data[0]
-#
-#    # Extract only the necessary Gummi Block data
-#    optimized_blueprint_data = blueprint_data[:0x6C + num_blocks_used * 12]
-#
-#    return gummi_blocks
+# Toggle to reduce per-block debug spam in normal usage.
+VERBOSE_DEBUG = False
 
-# GummiID to Gummi Inventory Offset mapping
 def calculate_gummi_offset(gummi_id, gumi_content):
     if gummi_id == 0x00:
         return None  # Skip over GummiID 00
-    return 0x9A78 + gummi_id - 1  # Subtract 1 to adjust for skipping GummiID 00
+
+    base_offset = 0x9A78 # INVENTORY OFFSET START
+
+    # Calculate offset based on Gummi ID
+    gummi_offset = base_offset + gummi_id - 1  # Subtract 1 to adjust for skipping GummiID 00
+
+    # Log the calculated offset
+    if VERBOSE_DEBUG:
+        logging.debug(
+            f"Calculating offset for Gummi ID: {gummi_id}. "
+            f"Base Offset: {hex(base_offset)}, Calculated Offset: {hex(gummi_offset)}"
+        )
+
+    # Check if the offset is valid within gumi_content
+    if gummi_offset < len(gumi_content):
+        return gummi_offset
+    else:
+        logging.error(f"Invalid offset for Gummi ID: {gummi_id}. Offset: {hex(gummi_offset)} exceeds gumi_content length.")
+        return None
 
 # Function to parse Gummi Block data from the currently selected Blueprint
 def parse_gummi_blocks(blueprint_data):
@@ -62,9 +69,11 @@ def count_gummi_blocks(blueprint_data):
 
 # Modify the update_gummi_block_list function to take only the blueprint data and gummi block listbox
 def get_gummi_type(gummi_id):
+    if gummi_id in rare_design_gummis:
+        return "Chest+Design"
     if gummi_id in design_gummis:
         return "Design"
     elif gummi_id in rare_gummis:
-        return "Rare"
+        return "Chest"
     else:
         return "Common"
