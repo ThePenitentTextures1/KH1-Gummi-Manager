@@ -218,12 +218,12 @@ max_gummi_counts = {
     0x8E: 2,    # Drill-G
     0x8F: 4,    # Caterpillar-G >
     0x90: 6,    # Caterpillar-G [Square]
-    # Fill in the remaining Gummi Blocks as needed
 }
 
-    #Rare Gummis are Gummi Blocks that, in Final Mix, are obtained from treasure chests and cannot be bought or sold.
-    #This distinction is made for the sake of an option in the blueprint tab that toggles whether to import these Gummis, giving
-    #the user the option to freely import required Gummi Blocks without accidentally locking them out of obtainable Gummi chests later.
+    # Rare Gummis are Gummi Blocks that, in Final Mix, are obtained from treasure chests and cannot be
+    # bought or sold.  This distinction is made for the sake of an option in the blueprint tab that toggles
+    # whether to import these Gummis, giving the user the option to freely import required Gummi Blocks
+    # without accidentally locking them out of obtainable Gummi chests later.
 rare_gummis = {
     0x03,   # Life-G
     0x04,   # Full-Life-G
@@ -238,10 +238,9 @@ rare_gummis = {
     0x3D,   # Thundaga-G
     0x3F,   # Meteor-G
     0x40,   # Ultima-G
-    # Add more rare gummis as needed
 }
 
-    #Design Gummis are exclusive to Final Mix.
+    # Design Gummis exclusive to Final Mix.  The ones in this list are obtained through Gummi Missions.
 design_gummis = {
     0x81,   # Wheel-G
     0x82,   # Fang-G
@@ -251,15 +250,19 @@ design_gummis = {
     0x86,   # Shoes-G
     0x87,   # Rock-G >
     0x88,   # Rock-G <
+    0x8D,   # Crown-G
+    0x8F,   # Caterpillar-G >
+    0x90,   # Caterpillar-G [Square]
+}
+
+    # # Design Gummis exclusive to Final Mix.  The ones in this list are obtained through Treasure Chests.
+    # # These can only be imported if both boxes are checked.
+rare_design_gummis = {
     0x89,   # Scissors-G >
     0x8A,   # Scissors-G <
     0x8B,   # Paper-G >
     0x8C,   # Paper-G <
-    0x8D,   # Crown-G
     0x8E,   # Drill-G
-    0x8F,   # Caterpillar-G >
-    0x90,   # Caterpillar-G [Square]
-    # Add more design gummis as needed
 }
 
 cockpit_gummis = {
@@ -286,9 +289,13 @@ weapon_gummis = {
     0x40,   # Ultima-G
 }
 
-system_gummis = {
+gummi_colors = {
     0x41,   # Spray
     0x42,   # Palette
+}
+
+    # The program automatically updates these items based on the blueprints loaded in the save file.
+system_gummis = {
     0x43,   # SYS. UP1
     0x44,   # SYS. UP2
     0x45,   # COM. LVL1
@@ -345,4 +352,72 @@ gummi_blueprints = {
     0x75,   # Phoenix Model
     0x76,   # Eden Model
     0x77,   # Bahamut Model
+}
+
+# Final Mix-only blueprints (not present in pre-Final Mix saves)
+final_mix_blueprints = {
+    0x6D,  # Moogle Model
+    0x6E,  # Valefor Model
+    0x6F,  # PuPu Model
+    0x70,  # Cerberus Model
+    0x71,  # Tonberry Model
+    0x72,  # Pandaemonium Model
+    0x73,  # Ixion Model
+    0x74,  # Gilgamesh Model
+    0x75,  # Phoenix Model
+    0x76,  # Eden Model
+    0x77,  # Bahamut Model
+}
+
+# Non-1x1x1 block sizes.
+# Axis order: (Port/Starboard, Top/Bottom, Front/Back).
+# Locator is assumed to be at (0, 0, 0) for all blocks in this list.
+gummi_block_sizes = {
+    0x01: (2, 2, 2),  # Cure-G
+    0x02: (2, 2, 2),  # Curaga-G
+    0x03: (2, 2, 2),  # Life-G
+    0x04: (2, 2, 2),  # Full-Life-G
+    0x06: (1, 1, 2),  # Fira-G
+    0x07: (2, 2, 2),  # Firaga-G
+    0x08: (1, 1, 3),  # Flare-G
+    0x09: (2, 2, 2),  # Holy-G
+    0x22: (1, 1, 2),  # Aerora-G >
+    0x23: (1, 1, 2),  # Aerora-G <
+    0x24: (1, 1, 3),  # Aeroga-G >
+    0x25: (1, 1, 3),  # Aeroga-G <
+    0x26: (2, 1, 2),  # Tornado-G >
+    0x27: (2, 1, 2),  # Tornado-G <
+    0x28: (1, 1, 3),  # Float-G >
+    0x29: (1, 1, 3),  # Float-G <
+    0x2D: (4, 1, 1),  # Drain-G >
+    0x2E: (4, 1, 1),  # Drain-G <
+    0x2F: (4, 1, 1),  # Osmose-G >
+    0x30: (4, 1, 1),  # Osmose-G <
+    0x33: (1, 2, 1),  # Scan-G (Front)
+    0x34: (1, 2, 1),  # Scan-G (All)
+    0x35: (1, 1, 2),  # Haste-G
+    0x36: (1, 1, 2),  # Haste2-G
+    0x37: (1, 1, 2),  # Shield-G
+    0x38: (1, 1, 2),  # Shield2-G
+    0x3B: (1, 1, 2),  # Thunder-G
+    0x3C: (1, 1, 2),  # Thundara-G
+    0x3D: (1, 1, 3),  # Thundaga-G
+    0x3E: (1, 1, 2),  # Comet-G
+    0x3F: (1, 1, 2),  # Meteor-G
+    0x40: (1, 1, 3),  # Ultima-G
+    0x81: (1, 2, 2),  # Wheel-G
+    0x83: (2, 2, 2),  # Horn-G
+    0x84: (3, 1, 2),  # Angel-G
+    0x85: (3, 1, 2),  # Dark-G
+    0x86: (2, 1, 3),  # Shoes-G
+    0x87: (2, 2, 2),  # Rock-G >
+    0x88: (2, 2, 2),  # Rock-G <
+    0x89: (2, 2, 2),  # Scissors-G >
+    0x8A: (2, 2, 2),  # Scissors-G <
+    0x8B: (2, 2, 2),  # Paper-G >
+    0x8C: (2, 2, 2),  # Paper-G <
+    0x8D: (2, 2, 2),  # Crown-G
+    0x8E: (2, 2, 3),  # Drill-G
+    0x8F: (1, 2, 2),  # Caterpillar-G >
+    0x90: (1, 2, 2),  # Caterpillar-G [Square]
 }
