@@ -6,6 +6,7 @@ import tkinter.messagebox as messagebox
 import tkinter.simpledialog as sd
 import shutil
 import tempfile
+import logging
 
 import KH1SYS_Text
 
@@ -38,7 +39,7 @@ def decode_blueprint_name(blueprint_data):
     
     return decoded_name
 
-def export_blueprint(save_filename, gumi_data, blueprint_listbox, selected_blueprint=None):
+def export_blueprint(save_filename, gumi_data, blueprint_listbox, selected_blueprint=None, transform_fn=None):
     if selected_blueprint is None:
         # Get the index of the selected blueprint in the listbox
         selected_index = blueprint_listbox.curselection()
@@ -54,6 +55,8 @@ def export_blueprint(save_filename, gumi_data, blueprint_listbox, selected_bluep
     blueprint_data = gumi_data.extract_blueprint_data(selected_blueprint)
 
     if blueprint_data:
+        if transform_fn is not None:
+            blueprint_data = transform_fn(bytearray(blueprint_data))
         # Optimize the blueprint data
         optimized_blueprint_data = optimize_blueprint(blueprint_data)
 
@@ -74,13 +77,11 @@ def export_blueprint(save_filename, gumi_data, blueprint_listbox, selected_bluep
         selected_filename = filedialog.asksaveasfilename(defaultextension=".kh1blueprint", initialfile=output_filename)
 
         if not selected_filename:
-            messagebox.showinfo("Operation Canceled", "Export operation canceled.")
             return
 
         if os.path.exists(selected_filename):
             confirm_overwrite = messagebox.askokcancel("Warning", f"{selected_filename} already exists. Do you want to overwrite it?")
             if not confirm_overwrite:
-                messagebox.showinfo("Operation Canceled", "Export operation canceled.")
                 return
 
         with open(selected_filename, 'wb') as f:
