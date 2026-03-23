@@ -1,4 +1,3 @@
-                  Here's the original readme:
   ---Intro:
 
 Just made a super-awesome KH1 Gummi Ship?  Wanna share it with others?  Wanna use it in a new save?
