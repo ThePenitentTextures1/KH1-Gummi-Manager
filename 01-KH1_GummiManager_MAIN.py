@@ -942,6 +942,8 @@ class GummiBlueprintController:
         self.save_states = {}
         self.shared_ui = {}
         self.load_config()
+        self.has_unsaved_changes = False
+        self.root.protocol("WM_DELETE_WINDOW", self.on_window_close)
 
         self.view = GummiBlueprintView(root, self)
 
@@ -1124,6 +1126,31 @@ class GummiBlueprintController:
         except Exception as exc:
             logging.warning("Failed to load config: %s", exc)
 
+    def on_window_close(self):
+        """Handle window close with unsaved changes warning."""
+        if self.has_unsaved_changes:
+            response = messagebox.askyesnocancel(
+                "Unsaved Changes",
+                "You have unsaved changes. Do you want to save before closing?\n\n"
+                "Yes: Save changes and close\n"
+                "No: Close without saving\n"
+                "Cancel: Return to the application"
+            )
+            if response is None:  # Cancel
+                return
+            elif response:  # Yes - Save
+                self.save_changes()
+        
+        self.root.destroy()
+    
+    def mark_changes_dirty(self):
+        """Mark that changes have been made."""
+        self.has_unsaved_changes = True
+    
+    def mark_changes_clean(self):
+        """Mark that changes have been saved."""
+        self.has_unsaved_changes = False
+
     def save_config(self):
         try:
             with open(self.config_path, "w", encoding="utf-8") as handle:
@@ -1259,6 +1286,7 @@ class GummiBlueprintController:
             if new_name:
                 success = self.data.rename_blueprint(blueprint_number, new_name)
                 if success:
+                    self.mark_changes_dirty()
                     self.refresh_blueprint_list(save_number, ui)
                     self.select_blueprint_slot(ui, blueprint_number, focus=False, trigger=True)
                     messagebox.showinfo(
@@ -1333,6 +1361,7 @@ class GummiBlueprintController:
         downscaled = self.downscale_blueprint_data(bytearray(blueprint_data))
         success = self.data.write_blueprint_to_slot(downscaled, target_blueprint_number)
         if success:
+            self.mark_changes_dirty()
             blueprint_data = self.data.extract_blueprint_data(target_blueprint_number)
             if blueprint_data and len(blueprint_data) >= 0x08:
                 size_hex = blueprint_data[0x02:0x08].hex().upper()
@@ -1515,6 +1544,7 @@ class GummiBlueprintController:
                 next_slot = min(slots)
                 for slot in slots:
                     self.data.delete_blueprint(slot)
+                self.mark_changes_dirty()
                 self.mark_stats_dirty(save_number)
                 self.refresh_blueprint_list(save_number, ui)
                 self.select_blueprint_slot(ui, next_slot, focus=False, trigger=True)
@@ -1828,6 +1858,7 @@ class GummiBlueprintController:
         else:
             success = self.data.add_required_gummi_blocks(include_chest, include_design)
         if success:
+            self.mark_changes_dirty()
             self.mark_stats_dirty(save_number)
             self.update_gummi_treeview(ui, self.data.blueprint_data, self.data.gumi_content)
             self.refresh_inventory_editor(save_number, ui, log_updates=True)
@@ -2185,6 +2216,7 @@ class GummiBlueprintController:
             gumi_content[offset:offset + BLUEPRINT_DATA_SIZE] = data
 
         self.refresh_blueprint_list(save_number, ui)
+        self.mark_changes_dirty()
 
         drop_target = ui.get("drag_drop_target")
         if drop_target is not None:
@@ -2232,6 +2264,7 @@ class GummiBlueprintController:
             gumi_content[offset:offset + BLUEPRINT_DATA_SIZE] = data
 
         self.refresh_blueprint_list(save_number, ui)
+        self.mark_changes_dirty()
         ui["blueprint_listbox"].selection_clear(0, tk.END)
         for idx in new_indices:
             ui["blueprint_listbox"].selection_set(idx)
@@ -2442,6 +2475,7 @@ class GummiBlueprintController:
                 self.on_blueprint_select(save_number, ui)
 
         if ui is not None:
+            self.mark_changes_dirty()
             self.mark_stats_dirty(save_number)
         self.update_gummi_stats(save_number, reason=f"sort {sort_id}")
         self.focus_blueprint_listbox(ui)
@@ -2460,6 +2494,7 @@ class GummiBlueprintController:
 
         if file_path and self.data.load_save_file(file_path):
             self.save_filename = file_path
+            self.mark_changes_clean()
             short_save_filename = os.path.basename(file_path)
             if self.current_save_file_label:
                 self.current_save_file_label.config(text=f"{short_save_filename}")
@@ -3449,6 +3484,7 @@ class GummiBlueprintController:
                 return
             if self.data.save_changes(self.save_filename):
                 messagebox.showinfo("Success", "Changes saved successfully.")
+                self.mark_changes_clean()
                 self.focus_blueprint_listbox()
             else:
                 messagebox.showerror("Save Error", "Failed to save changes.")
@@ -4130,6 +4166,7 @@ class GummiBlueprintController:
                 )
 
         if success:
+            self.mark_changes_dirty()
             self.mark_stats_dirty(save_number)
             self.refresh_blueprint_list(save_number, ui)
             if blueprint_number is not None:
@@ -4341,6 +4378,9 @@ class GummiBlueprintController:
                 if rel_offset is not None:
                     offset = base_offset + rel_offset
                     self.data.gumi_content[offset:offset + 4] = data
+                    sn = self.data.current_save_number
+                    if self.has_loaded_save(sn):
+                        self.mark_changes_dirty()
 
             combo = tk.OptionMenu(
                 container,
@@ -4592,6 +4632,7 @@ class GummiBlueprintController:
                     previous = self.data.gumi_content[gummi_offset]
                     if previous != quantity:
                         self.data.gumi_content[gummi_offset] = quantity
+                        self.mark_changes_dirty()
                         if not suppress_trace:
                             logging.debug(
                                 "Spinbox updated (Save %s): %s %d -> %d",
@@ -4770,4 +4811,3 @@ if __name__ == "__main__":
     except Exception:
         _log_startup_exception(*sys.exc_info())
         raise
-
