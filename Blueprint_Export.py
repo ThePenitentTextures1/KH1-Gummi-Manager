@@ -66,12 +66,15 @@ def export_blueprint(save_filename, gumi_data, blueprint_listbox, selected_bluep
         # Replace invalid characters in the decoded name with their corresponding values from KH1SYS_Filename
         decoded_name = ''.join([KH1SYS_Text.KH1SYS_Filename[char] if char in KH1SYS_Text.KH1SYS_Filename else char for char in decoded_name])
 
-        # Construct the output filename
-        if not isinstance(save_filename, str):
-            messagebox.showerror("Invalid Argument", "save_filename must be a string representing the file path.")
-            return
-        short_save_filename = os.path.basename(save_filename)
-        output_filename = f"{short_save_filename}_#{selected_blueprint}_{decoded_name}.kh1blueprint"
+        # # Construct the output filename (Old filename version; ultimately just clutters the name rather than properly differentiates blueprints)
+        # if not isinstance(save_filename, str):
+            # messagebox.showerror("Invalid Argument", "save_filename must be a string representing the file path.")
+            # return
+        # short_save_filename = os.path.basename(save_filename)
+        # output_filename = f"#{selected_blueprint} {decoded_name} - {short_save_filename}.kh1blueprint"
+        
+        # Construct the output filename (New version; this is really all we need.)
+        output_filename = f"#{selected_blueprint} {decoded_name}.kh1blueprint"
 
         # Prompt the user to select a destination file
         selected_filename = filedialog.asksaveasfilename(defaultextension=".kh1blueprint", initialfile=output_filename)

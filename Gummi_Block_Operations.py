@@ -7,6 +7,7 @@ import tkinter.simpledialog as sd
 import shutil
 import tempfile
 import logging
+from collections import Counter
 
 from Gummi_Block_Info import gummi_block_names
 from Gummi_Block_Info import max_gummi_counts
@@ -17,14 +18,20 @@ from Gummi_Block_Info import rare_design_gummis
 # Toggle to reduce per-block debug spam in normal usage.
 VERBOSE_DEBUG = False
 
+_GUMMI_INVENTORY_ORDER = sorted(gummi_block_names.keys())
+_GUMMI_INVENTORY_INDEX = {gid: idx for idx, gid in enumerate(_GUMMI_INVENTORY_ORDER)}
+
 def calculate_gummi_offset(gummi_id, gumi_content):
     if gummi_id == 0x00:
         return None  # Skip over GummiID 00
 
     base_offset = 0x9A78 # INVENTORY OFFSET START
 
-    # Calculate offset based on Gummi ID
-    gummi_offset = base_offset + gummi_id - 1  # Subtract 1 to adjust for skipping GummiID 00
+    # Inventory entries are stored contiguously in gummi_block_names order.
+    index = _GUMMI_INVENTORY_INDEX.get(gummi_id)
+    if index is None:
+        return None
+    gummi_offset = base_offset + index
 
     # Log the calculated offset
     if VERBOSE_DEBUG:
@@ -59,9 +66,8 @@ def parse_gummi_blocks(blueprint_data):
 # Function to count the quantity of each Gummi Block type used in the Blueprint
 def count_gummi_blocks(blueprint_data):
     gummi_blocks = parse_gummi_blocks(blueprint_data)
-    gummi_ids = [gummi_block[4] for gummi_block in gummi_blocks]  # Extract GummiID from each Gummi Block
-    required_gummi_counts = {gummi_id: gummi_ids.count(gummi_id) for gummi_id in set(gummi_ids)}
-    
+    gummi_ids = (gummi_block[4] for gummi_block in gummi_blocks)  # Extract GummiID from each Gummi Block
+    required_gummi_counts = Counter(gummi_ids)
     # Filter out Gummi Blocks with a quantity of 0
     required_gummi_counts = {gummi_id: count for gummi_id, count in required_gummi_counts.items() if count > 0}
     
