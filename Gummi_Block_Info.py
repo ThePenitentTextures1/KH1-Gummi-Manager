@@ -289,6 +289,62 @@ weapon_gummis = {
     0x40,   # Ultima-G
 }
 
+cannon_gummis = {
+    0x3B,   # Thunder-G
+    0x3C,   # Thundara-G
+    0x3D,   # Thundaga-G
+}
+
+laser_gummis = {
+    0x3E,   # Comet-G
+    0x3F,   # Meteor-G
+    0x40,   # Ultima-G
+}
+
+special_gummis = {
+    0x2D,    # Drain-G >
+    0x2E,    # Drain-G <
+    0x2F,    # Osmose-G >
+    0x30,    # Osmose-G <
+    0x31,    # Transform-G
+    0x32,    # Warp-G
+    0x33,    # Scan-G (Front)
+    0x34,    # Scan-G (All)
+    0x35,    # Haste-G
+    0x36,    # Haste2-G
+    0x37,    # Shield-G
+    0x38,    # Shield2-G
+    0x39,    # Esuna-G (Circle)
+    0x3A,    # Esuna-G (Square)
+}
+
+gummi_tiers = {
+    0x01: 1,    # Cure-G
+    0x02: 2,    # Curaga-G
+    0x03: 4,    # Life-G
+    0x04: 5,    # Full-Life-G
+    0x05: 1,    # Fire-G
+    0x06: 2,    # Fira-G
+    0x07: 3,    # Firaga-G
+    0x08: 4,    # Flare-G
+    0x09: 5,    # Holy-G
+    0x3B: 1,    # Thunder-G
+    0x3C: 2,    # Thundara-G
+    0x3D: 5,    # Thundaga-G
+    0x3E: 1,    # Comet-G
+    0x3F: 3,    # Meteor-G
+    0x40: 5,    # Ultima-G
+   
+}
+
+tier_weights = {
+    1: 1,    # Tier 1
+    2: 20,    # Tier 2
+    3: 360,    # Tier 3
+    4: 6480,    # Tier 4
+    5: 116640,    # Tier 5
+}
+
 gummi_colors = {
     0x41,   # Spray
     0x42,   # Palette
