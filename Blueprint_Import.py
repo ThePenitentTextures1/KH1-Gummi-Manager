@@ -102,7 +102,8 @@ def import_blueprint(
     gumi_location,
     transform_fn=None,
     show_success_message=True,
-    parent=None
+    parent=None,
+    target_blueprint_number=None
 ):
     success = False
     logging.info("Import blueprint file dialog opening.")
@@ -114,10 +115,15 @@ def import_blueprint(
 
     if blueprint_filename:
         logging.info("Import blueprint filename: %s", os.path.basename(blueprint_filename))
-        selected_index = blueprint_listbox.curselection()
+        blueprint_number = target_blueprint_number
+        if blueprint_number is None:
+            selected_index = blueprint_listbox.curselection()
+            if selected_index:
+                blueprint_number = int(blueprint_listbox.get(selected_index[0]).split()[1])
+            else:
+                blueprint_number = None
 
-        if selected_index:
-            blueprint_number = int(blueprint_listbox.get(selected_index[0]).split()[1])
+        if blueprint_number is not None:
             imported_blueprint_data = extract_imported_blueprint_data(blueprint_filename)
 
             if imported_blueprint_data:
