@@ -4238,7 +4238,7 @@ class GummiBlueprintController:
             decoded_name = Blueprint_Export.decode_blueprint_name(blueprint_data)
             decoded_name = ''.join([KH1SYS_Text.KH1SYS_Filename.get(char, char) for char in decoded_name])
             short_save_filename = os.path.basename(self.save_filename)
-            output_filename = f"#{slot}_{decoded_name}.kh1blueprint"
+            output_filename = f"#{slot} {decoded_name}.kh1blueprint"
             path = os.path.join(export_dir, output_filename)
             with open(path, "wb") as handle:
                 handle.write(optimized)
