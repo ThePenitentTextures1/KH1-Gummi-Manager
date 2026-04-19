@@ -40,6 +40,8 @@ Compatible Saves:
 
 (I had to infer most of these, the BESCES filenames haven't been tested yet; please let me know if one of these is wrong or if you get an error trying to import them.)
 
+-----
+
   ---Tool Functionality:
 
 -Upon opening, there's a "Load Save File" button at the top, with a "Save Changes" button right next to it.
