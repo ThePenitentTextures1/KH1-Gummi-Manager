@@ -4,11 +4,17 @@ Just made a super-awesome KH1 Gummi Ship?  Wanna share it with others?  Wanna us
 
 With this tool, you can export blueprints you made from that old endgame save, and import them into new save files!  Start your Gummi Journey in style!
 
+-----
+
 Credit:
 
 Some1fromthedark (Coding Instruction and Assistance)
+
 ChatGPT (Early Code Generation)
+
 Codex (Current Code Implementation)
+
+-----
 
 Compatible Saves:
 
