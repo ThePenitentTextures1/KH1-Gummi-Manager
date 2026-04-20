@@ -18,7 +18,9 @@ Codex (Current Code Implementation)
 
 Compatible Saves:
 
--PC Port .png save files
+-PC Port save files (KHFM_WW.png)
+
+-PS2 Memory Card Format (.ps2)
 
 -PS2 Foldered Saves:
 
