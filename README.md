@@ -74,7 +74,7 @@ Common Gummis are Gummi Blocks that can be sold at Cid's shop or are otherwise f
 
 Chest Gummis are Gummi Blocks that, in Final Mix, are obtained from treasure chests and cannot be bought or sold.
 
-Design Gummis are the Gummi Blocks introduced in Final Mix, which means they aren't available and may cause unexpected bugs in pre-Final Mix versions of the game.
+Design Gummis are the Gummi Blocks introduced in Final Mix, which means they aren't available in pre-Final Mix versions of the game and are disabled when pre-Final Mix saves are loaded into the editor.
 
 Some Gummi Blocks belong to both the Chest Gummi and Design Gummi categories.
 
